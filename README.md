@@ -7,7 +7,7 @@ A: *Student should provide answer here*
 
 # Question 2 (Diagonal Sudoku)
 Q: How do we use constraint propagation to solve the diagonal sudoku problem?  
-A: *Student should provide answer here*
+A: We use constraint propagation to solve the diagonal sudoku problem by adding extra units to represent the diagonals. This means that each box which belongs to a diagonal unit will have the numbers it could possibly be filled in by constrained by every other box along its diagonal. Most of the boxes aren't directly affected by this, since the diagonals units don't contain most of the boxes, but this is a useful constraint for the boxes which do belong to diagonal units- since they can potentially have fewer possible options during the search phase. Even boxes which don't belong to the diagonal units directly do belong to the same units as boxes which are part of the diagonal units, so those could be indirectly affected in a positive way as well.
 
 ### Install
 
