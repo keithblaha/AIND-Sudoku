@@ -28,7 +28,19 @@ def naked_twins(values):
 
     # Find all instances of naked twins
     # Eliminate the naked twins as possibilities for their peers
-    pass
+    twins_seen = set()
+    for box, val in values.items():
+        # only want to look at boxes which have 2 possible values and weren't already twins
+        if len(val) == 2 and box not in twins_seen:
+            # find if a peer is a twin by seeing if their possible values are same
+            twin = next((peer for peer in peers[box] if values[peer] == val), None)
+            if twin:
+                twins_seen |= {twin} # track to skip them later
+                # filter out the two possible values from all the mutual peers
+                for peer in peers[box] & peers[twin]:
+                    # can just assign even if not changing since assign_value will fast return
+                    values = assign_value(values, peer, values[peer].replace(val[0], '').replace(val[1], ''))
+    return values
 
 
 def cross(A, B):
@@ -82,7 +94,7 @@ def eliminate(values):
     for box in solved_values:
         digit = values[box]
         for peer in peers[box]:
-            assign_value(values, peer, values[peer].replace(digit,''))
+            values = assign_value(values, peer, values[peer].replace(digit,''))
     return values
 
 
@@ -96,7 +108,7 @@ def only_choice(values):
         for digit in '123456789':
             dplaces = [box for box in unit if digit in values[box]]
             if len(dplaces) == 1:
-                assign_value(values, dplaces[0], digit)
+                values = assign_value(values, dplaces[0], digit)
     return values
 
 
@@ -114,6 +126,7 @@ def reduce_puzzle(values):
         solved_values_before = len([box for box in values.keys() if len(values[box]) == 1])
         values = eliminate(values)
         values = only_choice(values)
+        values = naked_twins(values)
         solved_values_after = len([box for box in values.keys() if len(values[box]) == 1])
         stalled = solved_values_before == solved_values_after
         if len([box for box in values.keys() if len(values[box]) == 0]):

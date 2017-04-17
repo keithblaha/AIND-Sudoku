@@ -3,7 +3,7 @@
 
 # Question 1 (Naked Twins)
 Q: How do we use constraint propagation to solve the naked twins problem?  
-A: *Student should provide answer here*
+A: Naked twins allows us to use constraint propagation in solving the sudoku puzzle because there are often times peers which can each be one of the same two things. This means each of those peers must be one of those two things, so none of their mutual set of peers can be either of those two things. This means the twins mutual set of peers can have those two possibilities eliminated and thus constraints propagate across the board and reduce the search space as twins are discovered.
 
 # Question 2 (Diagonal Sudoku)
 Q: How do we use constraint propagation to solve the diagonal sudoku problem?  
